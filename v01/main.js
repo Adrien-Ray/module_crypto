@@ -10,9 +10,6 @@ export function crypto_v01(stringClear, stringCrypt, pass) {
         const passArray = stringToArray(pass);
         let result = "";
         const passSomme = sommeOfPass(passArray);
-        /* for (const element of stringInArray) {
-            result = result + encodeCaractere(element, passSomme);
-        }; */
         for (let i = 0; i < stringInArray.length; i++) {
             const element = stringInArray[i];
             const passSommeElement = passSomme[(i + passSomme.length) % passSomme.length];
@@ -20,15 +17,10 @@ export function crypto_v01(stringClear, stringCrypt, pass) {
         }
         return result;
     } if (stringCrypt) {
-        // console.info('to function déchiffre');
         const stringInArray = stringToArray(stringCrypt);
         const passArray = stringToArray(pass);
-        // console.log(stringInArray, passArray);
         let result = "";
         const passSomme = sommeOfPass(passArray);
-        /* for (const element of stringInArray) {
-            result = result + decodeCaractere(element, passSomme);
-        }; */
         for (let i = 0; i < stringInArray.length; i++) {
             const element = stringInArray[i];
             const passSommeElement = passSomme[(i + passSomme.length) % passSomme.length];
@@ -71,11 +63,9 @@ function sommeOfPass(passArray) {
             return element.char === elementPassArray;
         });
         // console.log('in sommeOfPass for', passSomeOne);
-        // passSome = passSome + passSomeOne;
         passSome.push(passSomeOne + caracteres_ascii.length % caracteres_ascii.length);
     };
     // console.log('in sommeOfPass result', passSome);
     console.log('sommeOfPass return : ', passSome);
     return passSome;
-    // return 1;
 }
