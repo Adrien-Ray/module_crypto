@@ -3,3 +3,19 @@
 # **ATTENTION ! CECI EST UN PROJET À CARACTÈRE ÉDUCATIF. LES DIFFÉRENTS CHIFFREMENTS PERMIS PAR CE CONTENU NE DOIVENT EN AUCUN CAS ÊTRE CONSIDÉRÉ COMME FIABLE DANS LA VRAIE VIE !**
 
 # **CAUTION! THIS IS AN EDUCATIONAL PROJECT. THE VARIOUS FIGURES PROVIDED IN THIS CONTENT SHOULD IN NO WAY BE CONSIDERED RELIABLE IN REAL LIFE!**
+
+```JS
+// overview :
+crypto("chaîne à chiffrer", "chaîne à déchiffrer", "password", "version");
+
+// la v00 est un chiffre de César (extrêmement simple)
+
+// exemple encode :
+crypto("abcÿabc","","azertyqwertyazertyqwertyazertyqwerty","v00");
+// return : "ÒÓÔŠÒÓÔ"
+
+// exemple decode :
+crypto("","ÒÓÔŠÒÓÔ","azertyqwertyazertyqwertyazertyqwerty","v00");
+// return : "abcÿabc"
+ ```       
+    
