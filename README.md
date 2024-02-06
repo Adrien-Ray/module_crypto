@@ -11,6 +11,7 @@ crypto("chaîne à chiffrer", "chaîne à déchiffrer", "password", "version");
 // la v00 est un chiffre de César (extrêmement simple)
 // la v01 est un chiffre de César dont le décalage change d'un caractère à l'autre, selon une période égale à la longueur du mot de passe
 // la v02 ajoute un incrément dans le décalage des caractère
+// la v03 implémente un second système de décalage.
 
 // exemple encode :
 crypto("abcÿabc","","azertyqwertyazertyqwertyazertyqwerty","v00");
