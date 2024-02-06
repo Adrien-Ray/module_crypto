@@ -23,8 +23,4 @@ function crypto (stringClear, stringCrypt, pass, version) {
     }
 };
 
-// const test = crypto("abcÿabc","","azertyqwertyazertyqwertyazertyqwerty","v00");
-// console.log("resultat de la fonction encode v00 : ", test);
-// console.log("resultat de la fonction decode v00 : ", crypto("",test,"azertyqwertyazertyqwertyazertyqwerty","v00"));
-
 export { crypto };

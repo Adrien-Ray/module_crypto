@@ -1,5 +1,22 @@
 import { caracteres_ascii } from "../caracters_ascii.js";
 
+let objCompteur = {
+    _compteur: 0, // init
+    set compteur(nouvelleValeur) {
+        this._compteur = nouvelleValeur;
+        this.trigger();
+    },
+    get compteur() {
+        return this._compteur;
+    },
+    trigger() {
+        console.log('La variable a changé de valeur : ', this._compteur);
+    }
+};
+
+// ex déclenchement
+// objCompteur.compteur++;
+
 export function crypto_v03(stringClear, stringCrypt, pass) {
     const stringInArray = (stringClear) ? stringToArray(stringClear) : stringToArray(stringCrypt);
     const passArray = stringToArray(pass);
@@ -14,6 +31,7 @@ export function crypto_v03(stringClear, stringCrypt, pass) {
         if (stringClear) { sens = "chiffre"; } else if (stringCrypt) { sens = "dechiffre"; }
         result = result + encodeDecodeCaractere(element, (passSommeElement + decalageIncremental + caracteres_ascii.length) % caracteres_ascii.length, sens);
     }
+    clearGlobal();
     return result;
 }
 
@@ -28,6 +46,7 @@ function encodeDecodeCaractere(stringElement, passSomme, sens) {
     });
     let switchSens = (sens === "chiffre") ? result + passSomme : result - passSomme;
     result = ((switchSens) + caracteres_ascii.length) % caracteres_ascii.length;
+    objCompteur.compteur++;
     return caracteres_ascii[result].char;
 }
 
@@ -41,4 +60,8 @@ function sommeOfPass(passArray) {
         passSome.push(passSomeOne + caracteres_ascii.length % caracteres_ascii.length);
     };
     return passSome;
+}
+
+function clearGlobal() {
+    objCompteur.compteur = 0;
 }
