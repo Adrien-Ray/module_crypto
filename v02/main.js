@@ -1,79 +1,44 @@
 import { caracteres_ascii } from "../caracters_ascii.js";
 
-// [X] ici on va transformer la function sommeOfPass pour qu'elle retourne un tableau de sommes de pass
-
-// ensuite dans encodeCaractere et decodeCaractere on va double-boucler pour "sommer" le tableau a chiffrer / déchiffrer dans un incrément qui boucle conjointement / dans le tableau des sommes de pass
-
 export function crypto_v02(stringClear, stringCrypt, pass) {
-    if (stringClear) {
-        const stringInArray = stringToArray(stringClear);
-        const passArray = stringToArray(pass);
-        let result = "";
-        const passSomme = sommeOfPass(passArray);
-        let decalageIncremental = 0;
-        for (let i = 0; i < stringInArray.length; i++) {
-            decalageIncremental++;
-            const element = stringInArray[i];
-            const passSommeElement = passSomme[(i + passSomme.length) % passSomme.length];
-            result = result + encodeCaractere(element, (passSommeElement + decalageIncremental + caracteres_ascii.length) % caracteres_ascii.length);
-        }
-        console.log("result construct crypto_v01 : ", result);
-        return result;
-    } if (stringCrypt) {
-        const stringInArray = stringToArray(stringCrypt);
-        const passArray = stringToArray(pass);
-        let result = "";
-        const passSomme = sommeOfPass(passArray);
-        let decalageIncremental = 0;
-        for (let i = 0; i < stringInArray.length; i++) {
-            decalageIncremental++;
-            const element = stringInArray[i];
-            const passSommeElement = passSomme[(i + passSomme.length) % passSomme.length];
-            result = result + decodeCaractere(element, (passSommeElement + decalageIncremental + caracteres_ascii.length) % caracteres_ascii.length);
-        }
-        console.log("result construct crypto_v01 : ", result);
-        return result;
+    const stringInArray = (stringClear) ? stringToArray(stringClear) : stringToArray(stringCrypt);
+    const passArray = stringToArray(pass);
+    let result = "";
+    const passSomme = sommeOfPass(passArray);
+    let decalageIncremental = 0;
+    for (let i = 0; i < stringInArray.length; i++) {
+        decalageIncremental++;
+        const element = stringInArray[i];
+        const passSommeElement = passSomme[(i + passSomme.length) % passSomme.length];
+        let sens = "";
+        if (stringClear) { sens = "chiffre"; } else if (stringCrypt) { sens = "dechiffre"; }
+        result = result + encodeDecodeCaractere(element, (passSommeElement + decalageIncremental + caracteres_ascii.length) % caracteres_ascii.length, sens);
     }
-    return 'error wrong way round';
+    return result;
 }
 
 function stringToArray(string) {
     return string.split('');
 }
 
-function encodeCaractere(stringElement, passSomme) {
-    // in : caractere a encoder, somme pass
-        let result = caracteres_ascii.findIndex(function(element) {
-            return element.char === stringElement;
-        });
-    result = ((result + passSomme) + caracteres_ascii.length) % caracteres_ascii.length;
-    // console.log("result in encodeCaractere : ", result, caracteres_ascii[result].char);
-    return caracteres_ascii[result].char;
-}
-
-function decodeCaractere(stringElement, passSomme) {
-    // in : caractere a decoder, somme pass
-        let result = caracteres_ascii.findIndex(function(element) {
-            return element.char === stringElement;
-        });
-    result = ((result - passSomme) + caracteres_ascii.length) % caracteres_ascii.length;
-    // console.log("result in encodeCaractere : ", result, caracteres_ascii[result].char);
-    console.log("result : ", result);
+function encodeDecodeCaractere(stringElement, passSomme, sens) {
+    // in : caractere a encoder, somme pass, sens ("chiffre" || "dechiffre")
+    let result = caracteres_ascii.findIndex(function(element) {
+        return element.char === stringElement;
+    });
+    let switchSens = (sens === "chiffre") ? result + passSomme : result - passSomme;
+    result = ((switchSens) + caracteres_ascii.length) % caracteres_ascii.length;
     return caracteres_ascii[result].char;
 }
 
 function sommeOfPass(passArray) {
-    // in : pass array, out : number
-    // console.log('in sommeOfPass', passArray);
+    // in : pass array of caracters, out : array of number
     let passSome = [];
     for (const elementPassArray of passArray) {
         let passSomeOne = caracteres_ascii.findIndex(function(element) {
             return element.char === elementPassArray;
         });
-        // console.log('in sommeOfPass for', passSomeOne);
         passSome.push(passSomeOne + caracteres_ascii.length % caracteres_ascii.length);
     };
-    // console.log('in sommeOfPass result', passSome);
-    console.log('sommeOfPass return : ', passSome);
     return passSome;
 }
