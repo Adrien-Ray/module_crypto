@@ -1,7 +1,5 @@
 import { caracteres_ascii } from "../caracters_ascii.js";
 
-console.log(caracteres_ascii);
-
 let roues = [];
 
 function setRoues(passSome) {
@@ -52,13 +50,11 @@ export function crypto_v03(stringClear, stringCrypt, pass) {
         const passSommeElement = passSomme[(i + passSomme.length) % passSomme.length];
         let sens = "";
         if (stringClear) { sens = "chiffre"; } else if (stringCrypt) { sens = "dechiffre"; }
-        console.log('passSomme before', passSomme);
         result = result + encodeDecodeCaractere(
             element,
             (passSommeElement + decalageIncremental + roues[(i + roues.length) % roues.length] - 1 + caracteres_ascii.length) % caracteres_ascii.length,
             sens
         );
-        console.log('passSomme after', passSomme);
     }
     clearGlobal();
     return result;
